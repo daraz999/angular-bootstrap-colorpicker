@@ -520,6 +520,33 @@ angular.module('colorpicker.module', [])
                 }
               }
             }
+
+            updateRecentColorsPicker();
+          }
+
+          function updateRecentColorsPicker() {
+            if (typeof(Storage) === 'undefined') {
+              return false;
+            }
+
+            var recentColors = localStorage.getItem('recentColors') || '[]';
+            recentColors = JSON.parse(recentColors);
+
+            if (!recentColors.length) {
+              return false;
+            }
+
+            var recentSwitches = colorpickerTemplate.find('colorpicker-recent').find('div').find('span');
+
+            if (!recentSwitches.length) {
+              return false;
+            }
+
+            for (var i = 0; i < recentColors.length; i++) {
+              angular.element(recentSwitches[i]).css('background-color', recentColors[i]);
+            }
+
+            colorpickerTemplate.find('colorpicker-recent').css('display', 'block');
           }
 
           if (inline === false) {
@@ -568,6 +595,11 @@ angular.module('colorpicker.module', [])
             var recentColor = pickerColor.toHex();
             var recentColors = localStorage.getItem('recentColors') || '[]';
             recentColors = JSON.parse(recentColors);
+
+            if (recentColors.indexOf(recentColor) !== -1) {
+              return true;
+            }
+
             recentColors.unshift(recentColor);
             recentColors = recentColors.slice(0, 6);
 

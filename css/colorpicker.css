@@ -3,7 +3,7 @@
   display: block !important;
 }
 colorpicker-recent {
-  display: block;
+  display: none;
 }
 colorpicker-recent .recent {
   display: inline-block;
