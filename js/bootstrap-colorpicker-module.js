@@ -277,7 +277,7 @@ angular.module('colorpicker.module', [])
               template =
                   '<div class="colorpicker dropdown">' +
                       '<div class="dropdown-menu">' +
-                      '<colorpicker-recent><span>Recent colors:</span><div><span style="background-color: #a4a4a4;" class="recent recent-1"></span><span style="background-color: #fffb5a;" class="recent recent-2"></span><span style="background-color: #ff2af6;" class="recent recent-3"></span><span style="background-color: #16fff2;" class="recent recent-4"></span><span style="background-color: #724fff;" class="recent recent-5"></span><span style="background-color: #ffffff;" class="recent recent-6"></span></div></colorpicker-recent>' +
+                      '<colorpicker-recent><span>Recent colors:</span><div><span style="background-color: #ffffff;" class="recent recent-1"></span><span style="background-color: #ffffff;" class="recent recent-2"></span><span style="background-color: #ffffff;" class="recent recent-3"></span><span style="background-color: #ffffff;" class="recent recent-4"></span><span style="background-color: #ffffff;" class="recent recent-5"></span><span style="background-color: #ffffff;" class="recent recent-6"></span></div></colorpicker-recent>' +
                       '<colorpicker-saturation><i></i></colorpicker-saturation>' +
                       '<colorpicker-hue><i></i></colorpicker-hue>' +
                       '<colorpicker-alpha><i></i></colorpicker-alpha>' +
@@ -556,6 +556,22 @@ angular.module('colorpicker.module', [])
                 }
               }
             }
+
+            storeRecentColor();
+          }
+
+          function storeRecentColor() {
+            if (typeof(Storage) === 'undefined' || !elem.val()) {
+              return false;
+            }
+
+            var recentColor = pickerColor.toHex();
+            var recentColors = localStorage.getItem('recentColors') || '[]';
+            recentColors = JSON.parse(recentColors);
+            recentColors.unshift(recentColor);
+            recentColors = recentColors.slice(0, 6);
+
+            localStorage.setItem('recentColors', JSON.stringify(recentColors));
           }
 
           colorpickerTemplate.find('button').on('click', function () {
